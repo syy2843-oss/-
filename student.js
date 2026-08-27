@@ -6,7 +6,7 @@
  *
  * ⚠️ 아래 WEB_APP_URL을 본인의 Apps Script 웹 앱 URL로 바꿔주세요.
  */
-const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyYJbzpYtLVrcAp0pMT4FqIGzQ1nMOHEnh5LAWH8ok-3VsBydNXZHp8eKRp2m2AbCvPLQ/exec";
+const WEB_APP_URL = "PUT_YOUR_APPS_SCRIPT_WEB_APP_URL_HERE";
 
 const STORAGE_KEY = "attendance_student_id";
 const DEVICE_TOKEN_STORAGE_KEY = "attendance_device_token";
@@ -125,6 +125,7 @@ function renderDeviceRegisterConfirm(student, errorMessage) {
       등록 후에는 이 휴대폰으로만 ${escapeHtml(student.studentId)}번 출석 처리가 가능합니다.
     </p>
     <button id="registerDeviceBtn" class="btn btn-primary">이 휴대폰으로 등록하기</button>
+    <button id="switchStudentBtn" class="btn btn-ghost">다른 학번으로 계속하기</button>
     ${errorMessage ? `<p class="error-text">${escapeHtml(errorMessage)}</p>` : ""}
   `;
 
@@ -141,6 +142,11 @@ function renderDeviceRegisterConfirm(student, errorMessage) {
     } catch (err) {
       renderDeviceRegisterConfirm(student, "네트워크 오류가 발생했습니다. 다시 시도해주세요.");
     }
+  });
+
+  document.getElementById("switchStudentBtn").addEventListener("click", () => {
+    clearSavedIdentity();
+    renderRegisterForm();
   });
 }
 
